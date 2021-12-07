@@ -72,8 +72,6 @@ Status FThreadTree(BitTree p) {
 
 		pre = p;
 		FThreadTree(p->lchild);
-
-		pre = p;
 		FThreadTree(p->rchild);
 	}
 
@@ -92,8 +90,8 @@ Status FSearchTree(BitTree p) {
 		else {
 			printf("%d没有后继结点\n", p->data);
 		}
-		FSearchTree(p->lchild);
-		FSearchTree(p->rchild);
+		if (p->ltag == 0) FSearchTree(p->lchild);
+		if (p->rtag == 0) FSearchTree(p->rchild);
 	}
 
 	return OK;
