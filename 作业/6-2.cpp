@@ -29,25 +29,24 @@ typedef int TElemType;
 typedef struct BitNode {
 	TElemType data;
 	TElemType ltag, rtag;
-	struct BitNode* lchild, * rchild;
-}BitNode, * BitTree;
+	struct BitNode *lchild, * rchild;
+} BitNode, * BitTree;
 
 BitTree pre = NULL;
 
-Status InitTree(BitTree* T) {
+Status InitTree(BitTree *T) {
 	*T = NULL;
 	return OK;
 }
 
 // 前序生成二叉树
-Status CreateTree(BitTree* T) {
+Status CreateTree(BitTree *T) {
 	TElemType data;
-	scanf_s("%d", &data);
+	scanf("%d", &data);
 
 	if (data == 0) {
 		*T = NULL;
-	}
-	else {
+	} else {
 		(*T) = (BitTree)malloc(sizeof(BitNode));
 		if (!(*T)) {
 			printf("申请内存失败\n");
@@ -83,15 +82,15 @@ Status FSearchTree(BitTree p) {
 	if ((p)) {
 		if ((p)->lchild) {
 			printf("%d的后继结点是%d\n", (p)->data, (p)->lchild->data);
-		}
-		else if (p->rtag == Thread) {
+		} else if (p->rtag == Thread) {
 			printf("%d的后继结点是%d\n", p->data, p->rchild->data);
-		}
-		else {
+		} else {
 			printf("%d没有后继结点\n", p->data);
 		}
-		if (p->ltag == 0) FSearchTree(p->lchild);
-		if (p->rtag == 0) FSearchTree(p->rchild);
+		if (p->ltag == 0)
+			FSearchTree(p->lchild);
+		if (p->rtag == 0)
+			FSearchTree(p->rchild);
 	}
 
 	return OK;

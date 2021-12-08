@@ -25,25 +25,25 @@ typedef int TElemType;
 typedef int Status;
 typedef struct BiTNode {
 	TElemType data;
-	struct BiTNode* lchild, * rchild;
-}BiTNode, * BiTree;
+	struct BiTNode *lchild, * rchild;
+} BiTNode, * BiTree;
 
-Status InitTree(BiTree* T) {
+Status InitTree(BiTree *T) {
 	*T = NULL;
 	return OK;
 }
 
-Status CreateTree(BiTree* T) {
+Status CreateTree(BiTree *T) {
 	int e;
 
-	scanf_s("%d", &e);
+	scanf("%d", &e);
 
 	if (e == 0) {
 		*T = NULL;
-	}
-	else {
+	} else {
 		(*T) = (BiTree)malloc(sizeof(BiTNode));
-		if (!*T) exit(OVERFLOW);
+		if (!*T)
+			exit(OVERFLOW);
 
 		(*T)->data = e;
 		CreateTree(&(*T)->lchild);
@@ -51,10 +51,11 @@ Status CreateTree(BiTree* T) {
 	}
 }
 
-TElemType NumTreeNode(BiTree* T) {
+TElemType NumTreeNode(BiTree *T) {
 	int t = 0;
 
-	if ((*T) == NULL) return t;
+	if ((*T) == NULL)
+		return t;
 
 	if ((*T)->data > 0)
 		t++;

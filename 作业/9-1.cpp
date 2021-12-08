@@ -11,20 +11,21 @@ typedef int ElemType;
 typedef struct {
 	ElemType key;
 	int count;
-}Hash[MAX_SIZE];
+} Hash[MAX_SIZE];
+
 typedef struct {
 	Hash hash;
 	int numkey, tablelength;
 	ElemType Key[MAX_SIZE];
-}HashTable;
+} HashTable;
 
-void CreateHash(HashTable* h) {
+void CreateHash(HashTable *h) {
 	printf("请输入关键值的个数和表长：\n");
-	scanf_s("%d%d", &h->numkey, &h->tablelength);
+	scanf("%d%d", &h->numkey, &h->tablelength);
 
 	printf("请输入每个关键值：\n");
 	for (int i = 0; i < h->numkey; i++) {
-		scanf_s("%d", &h->Key[i]);
+		scanf("%d", &h->Key[i]);
 	}
 
 	for (int i = 0; i < h->tablelength; i++) {
@@ -39,7 +40,7 @@ void DisPlayKey(HashTable h) {
 	printf("\n");
 }
 
-void HashKey(HashTable* h) {
+void HashKey(HashTable *h) {
 	for (int i = 0; i < h->numkey; i++) {
 		int tmp = h->Key[i] % 7, cnt = 1;
 		if (h->hash[tmp].count == 0) {

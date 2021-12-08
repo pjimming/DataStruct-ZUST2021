@@ -12,11 +12,11 @@ int length;
 
 void CreateArray(ElemType A[]) {
 	printf("请输入元素个数:\n");
-	scanf_s("%d", &length);
+	scanf("%d", &length);
 
 	printf("请输入所有元素:\n");
 	for (int i = 0; i < length; i++) {
-		scanf_s("%d", &A[i]);
+		scanf("%d", &A[i]);
 	}
 }
 
