@@ -18,9 +18,8 @@ typedef struct EdgeNode {
 } EdgeNode;
 
 typedef struct VertexNode {
-	VertexType name[MAX_NAME_SIZE];
-	EdgeNode *firstedge;
 	int idx;
+	EdgeNode *firstedge;
 } VertexNode;
 
 typedef struct {
@@ -30,6 +29,13 @@ typedef struct {
 
 int visited[MAX_VERTEX_SIZE];
 
+int LocateVer(GraphAdjList *gp, int v) {
+	for (int i = 1; i <= gp->numNodes; i++) {
+		if (gp->adjlist[i].idx == v)
+			return i;
+	}
+}
+
 void CreateGraph(GraphAdjList *gp) {
 	EdgeNode *p;
 
@@ -38,9 +44,8 @@ void CreateGraph(GraphAdjList *gp) {
 
 	printf("请输入结点的名称：\n");
 	for (int i = 1; i <= gp->numNodes; i++) {
-		gp->adjlist[i].idx = i;
 		gp->adjlist[i].firstedge = NULL;
-		//scanf_s("%s", gp->adjlist[i].name);
+		scanf("%d", &gp->adjlist[i].idx);
 	}
 
 	printf("请输入（v1, v2, e）v1 -e-> v2\n");
@@ -50,9 +55,9 @@ void CreateGraph(GraphAdjList *gp) {
 
 		p = (EdgeNode *)malloc(sizeof(EdgeNode));
 		p->weight = e;
-		p->adjvex = v2;
+		p->adjvex = LocateVer(gp, v2);
 		p->next = gp->adjlist[v1].firstedge;
-		gp->adjlist[v1].firstedge = p;
+		gp->adjlist[LocateVer(gp, v1)].firstedge = p;
 	}
 
 	for (int i = 1; i <= gp->numNodes; i++) {
@@ -61,15 +66,15 @@ void CreateGraph(GraphAdjList *gp) {
 }
 
 void GraphDFS(GraphAdjList *gp, int idx) {
-	printf("v%d, ", gp->adjlist[idx].idx);
-	visited[idx] = true;
+	printf("v%d, ", gp->adjlist[LocateVer(gp, idx)].idx);
+	visited[LocateVer(gp, idx)] = true;
 
 	GraphAdjList *p = gp;
-	while (p->adjlist[idx].firstedge) {
-		int j = p->adjlist[idx].firstedge->adjvex;
+	while (p->adjlist[LocateVer(gp, idx)].firstedge) {
+		int j = p->adjlist[LocateVer(gp, idx)].firstedge->adjvex;
 		if (!visited[j])
 			GraphDFS(gp, j);
-		p->adjlist[idx].firstedge = p->adjlist[idx].firstedge->next;
+		p->adjlist[LocateVer(gp, idx)].firstedge = p->adjlist[LocateVer(gp, idx)].firstedge->next;
 	}
 }
 
@@ -84,6 +89,8 @@ int main() {
 }
 
 /*
+8 13
+1 2 3 4 5 6 7 8
 1 6 50
 1 4 1
 1 2 6
