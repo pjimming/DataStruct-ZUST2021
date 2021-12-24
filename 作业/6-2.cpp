@@ -61,40 +61,84 @@ Status CreateTree(BitTree *T) {
 	return OK;
 }
 
-// 前序线索化二叉树
+// 前序递归线索化二叉树
 Status FThreadTree(BitTree p) {
 	if (p) {
-		if (pre && !pre->lchild) {
+		// 设置p的前驱结点
+		if (!p->lchild) {
+			p->ltag = Thread;
+			p->lchild = pre;
+		}
+
+		// 设置pre的后继结点
+		if (pre && !pre->rchild) {
 			pre->rtag = Thread;
 			pre->rchild = p;
 		}
 
 		pre = p;
-		FThreadTree(p->lchild);
-		FThreadTree(p->rchild);
+		if (p->ltag == Link)
+			FThreadTree(p->lchild);
+		if (p->rtag == Link)
+			FThreadTree(p->rchild);
 	}
 
 	return OK;
 }
 
-// 前序搜索二叉树的后继结点
-Status FSearchTree(BitTree p) {
+Status PreOrder(BitTree p) {
+	while (p) {
+		while (p->ltag == Link) {
+			printf("%d ", p->data);
+			p = p->lchild;
+		}
+		printf("%d ", p->data);
+		p = p->rchild;
+	}
+	puts("");
+
+	return OK;
+}
+
+// 前序搜索二叉树的前驱结点(递归)
+Status FSearchTree_front(BitTree p) {
+	if (p) {
+		if (p->ltag == Thread) {
+			printf("%d的前驱结点是%d\n", p->data, p->lchild->data);
+		} else if (pre) {
+			printf("%d的前驱结点是%d\n", p->data, pre->data);
+		} else {
+			printf("%d没有前驱结点\n", p->data);
+		}
+		pre = p;
+		if (p->ltag == Link)
+			FSearchTree_front(p->lchild);
+		if (p->rtag == Link)
+			FSearchTree_front(p->rchild);
+	}
+
+	return OK;
+}
+
+// 前序搜索二叉树的后继结点(递归)
+Status FSearchTree_back(BitTree p) {
 	if ((p)) {
-		if ((p)->lchild) {
+		if (p->lchild && p->ltag == Link) {
 			printf("%d的后继结点是%d\n", (p)->data, (p)->lchild->data);
-		} else if (p->rtag == Thread) {
+		} else if (p->rchild) {
 			printf("%d的后继结点是%d\n", p->data, p->rchild->data);
 		} else {
 			printf("%d没有后继结点\n", p->data);
 		}
-		if (p->ltag == 0)
-			FSearchTree(p->lchild);
-		if (p->rtag == 0)
-			FSearchTree(p->rchild);
+		if (p->ltag == Link)
+			FSearchTree_back(p->lchild);
+		if (p->rtag == Link)
+			FSearchTree_back(p->rchild);
 	}
 
 	return OK;
 }
+
 
 int main() {
 	BitTree T;
@@ -105,8 +149,15 @@ int main() {
 
 	FThreadTree(T);
 
+	printf("线索遍历得出前序序列如下：\n");
+	PreOrder(T);
+
 	printf("前序搜索出二叉树结点的后继结点如下：\n");
-	FSearchTree(T);
+	FSearchTree_back(T);
+
+	pre = NULL;
+	printf("\n前序搜索出二叉树结点的前驱结点如下：\n");
+	FSearchTree_front(T);
 
 	return 0;
 }
