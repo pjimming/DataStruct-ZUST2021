@@ -103,7 +103,7 @@ Status PreOrder(BitTree p) {
 // 前序搜索二叉树的前驱结点(递归)
 Status FSearchTree_front(BitTree p) {
 	if (p) {
-		if (p->ltag == Thread) {
+		if (p->ltag == Thread && p->lchild) {
 			printf("%d的前驱结点是%d\n", p->data, p->lchild->data);
 		} else if (pre) {
 			printf("%d的前驱结点是%d\n", p->data, pre->data);
