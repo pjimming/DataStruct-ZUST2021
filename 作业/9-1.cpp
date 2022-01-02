@@ -42,19 +42,25 @@ void DisPlayKey(HashTable h) {
 
 void HashKey(HashTable *h) {
 	for (int i = 0; i < h->numkey; i++) {
-		int tmp = h->Key[i] % 7, cnt = 1;
+		int tmp = h->Key[i] % 7, cnt = 1, count = 1;
 		if (h->hash[tmp].count == 0) {
-			h->hash[tmp].count = cnt;
+			h->hash[tmp].count = count;
 			h->hash[tmp].key = h->Key[i];
 			continue;
 		}
 
+		int flag = 1;
 		while (h->hash[tmp].count) {
-			tmp = (h->Key[i] % 7 + cnt * cnt) % h->tablelength;
-			cnt++;
+			tmp = (h->Key[i] % 7 + cnt * cnt * flag + h->tablelength) % h->tablelength;
+			count++;
+			if (flag == 1) {
+				flag = -1;
+			} else {
+				cnt++, flag = 1;
+			}
 		}
 
-		h->hash[tmp].count = cnt;
+		h->hash[tmp].count = count;
 		h->hash[tmp].key = h->Key[i];
 	}
 }
@@ -75,6 +81,14 @@ void FindKey(HashTable h, ElemType key) {
 	printf("\n------------------------------------\n");
 }
 
+void AverageHash(HashTable h) {
+	double res = 0;
+	for (int i = 0; i < h.tablelength; i++) {
+		res += h.hash[i].count;
+	}
+	printf("AVS = %.6f\n", res / h.numkey);
+}
+
 int main() {
 	HashTable h;
 
@@ -85,6 +99,8 @@ int main() {
 	HashKey(&h);
 
 	DisPlayHash(h);
+
+	AverageHash(h);
 
 	FindKey(h, 84);
 
