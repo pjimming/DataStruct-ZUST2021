@@ -7,11 +7,11 @@
 #include <stdlib.h>
 
 #define  INFINITY 100000	   //最大值   ∞
-#define  MAX_VERTEX_NUM 20        //最大顶点个数
+#define  MAX_VERTEX_NUM 20     //最大顶点个数
 typedef struct {
-	char vexs[MAX_VERTEX_NUM];  		            //顶点向量
+	char vexs[MAX_VERTEX_NUM];  		        //顶点向量
 	int arcs[MAX_VERTEX_NUM][MAX_VERTEX_NUM];	//邻接矩阵
-	int vexnum, arcnum;					            //图的当前顶点和弧数
+	int vexnum, arcnum;					        //图的当前顶点和弧数
 } MGraph;
 
 typedef struct {
@@ -20,10 +20,10 @@ typedef struct {
 	int lowcost;
 } closedge[MAX_VERTEX_NUM];
 
-void CreateUDN(MGraph& G);		  //创建无向网络
+void CreateUDN(MGraph &G);		  //创建无向网络
 int LocateVex(MGraph G, char v);	      //结点的在顶点向量中的下标
 void PrintUDN(MGraph G);			  //输出存储结构示意图
-void MiniSpanTree_PRIM(MGraph G, closedge& minedge); //求最小生成树的算法
+void MiniSpanTree_PRIM(MGraph G, closedge &minedge); //求最小生成树的算法
 void PrintMinEdge(MGraph G, closedge minedge);       //输出最小生成树的边
 
 int main() {
@@ -43,7 +43,7 @@ int main() {
 	return 0;
 }
 
-void CreateUDN(MGraph& G) {
+void CreateUDN(MGraph &G) {
 	//补充代码
 	scanf("%d%d", &G.vexnum, &G.arcnum);
 	scanf("%s", G.vexs);
@@ -92,7 +92,7 @@ void PrintUDN(MGraph G) {
 	}
 }
 
-void MiniSpanTree_PRIM(MGraph G, closedge& minedge) {
+void MiniSpanTree_PRIM(MGraph G, closedge &minedge) {
 	int i, j, k, z;
 	int temp;
 	int currentmin;
